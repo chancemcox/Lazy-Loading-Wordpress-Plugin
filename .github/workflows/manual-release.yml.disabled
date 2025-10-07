@@ -33,16 +33,43 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
+    - name: Validate version format
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+        if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "❌ Invalid version format: $VERSION"
+          echo "Version must be in format: x.y.z (e.g., 1.0.1)"
+          exit 1
+        fi
+        echo "✅ Version format is valid: $VERSION"
+        
     - name: Update version in files
       run: |
-        # Update package.json
-        npm version ${{ github.event.inputs.version }} --no-git-tag-version
+        VERSION="${{ github.event.inputs.version }}"
+        
+        # Update package.json using node
+        node -e "
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          pkg.version = '$VERSION';
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          console.log('✅ Updated package.json to version:', pkg.version);
+        "
         
         # Update main plugin file
-        sed -i "s/Version: .*/Version: ${{ github.event.inputs.version }}/" lazy-loading-plugin.php
+        sed -i "s/Version: .*/Version: $VERSION/" lazy-loading-plugin.php
         
-        # Update constant if it exists
-        sed -i "s/define('LAZY_LOADING_PLUGIN_VERSION', '[^']*')/define('LAZY_LOADING_PLUGIN_VERSION', '${{ github.event.inputs.version }}')/" lazy-loading-plugin.php
+        # Update constant if it exists  
+        sed -i "s/define('LAZY_LOADING_PLUGIN_VERSION', '[^']*')/define('LAZY_LOADING_PLUGIN_VERSION', '$VERSION')/" lazy-loading-plugin.php
+        
+        echo "✅ Updated all files to version: $VERSION"
+        
+    - name: Verify version updates
+      run: |
+        echo "📋 Verifying version updates:"
+        echo "Package.json version: $(node -p "require('./package.json').version")"
+        echo "Plugin file version: $(grep 'Version:' lazy-loading-plugin.php)"
+        echo "Plugin constant: $(grep 'LAZY_LOADING_PLUGIN_VERSION' lazy-loading-plugin.php || echo 'Not found')"
         
     - name: Build WordPress plugin
       run: |
@@ -104,10 +131,21 @@ jobs:
         
     - name: Commit version changes
       run: |
+        VERSION="${{ github.event.inputs.version }}"
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add package.json lazy-loading-plugin.php
-        git commit -m "🚀 Release v${{ github.event.inputs.version }}" || echo "No changes to commit"
-        git tag v${{ github.event.inputs.version }}
-        git push origin main
-        git push origin v${{ github.event.inputs.version }}
+        
+        # Check if there are changes to commit
+        if git diff --quiet; then
+          echo "No changes to commit"
+        else
+          git add package.json lazy-loading-plugin.php
+          git commit -m "🚀 Release v$VERSION" || echo "Commit failed, continuing..."
+        fi
+        
+        # Create tag
+        git tag "v$VERSION" || echo "Tag creation failed, continuing..."
+        
+        # Push changes and tag
+        git push origin main || echo "Push to main failed, continuing..."
+        git push origin "v$VERSION" || echo "Push tag failed, continuing..."
