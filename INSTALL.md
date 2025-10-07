@@ -47,6 +47,13 @@ Once installed and activated:
 
 ## 🔄 Automatic Updates
 
+### GitHub Releases
+The plugin includes automated release workflows:
+
+1. **Manual Release**: Go to GitHub Actions → "Manual Release" → Run workflow
+2. **Automatic on Tag**: Push a git tag starting with `v` (e.g., `v1.0.1`)
+3. **Local Release**: Use `npm run publish-release` for interactive releases
+
 ### Build Process
 To create a distribution ZIP automatically:
 
@@ -60,16 +67,15 @@ npm run build-zip
 
 This will:
 1. Minify CSS and JavaScript files
-2. Remove development files
-3. Create `lazy-loading-plugin.zip` ready for WordPress
+2. Remove development files  
+3. Create `lazy-loading-plugin-v*.zip` ready for WordPress
 
-### For Plugin Developers
-The plugin includes an update checker that can be extended for automatic updates from your server:
-
-```php
-// In your hosting setup, extend the update checker
-add_filter('pre_set_site_transient_update_plugins', 'check_for_plugin_update');
-```
+### Using GitHub Actions
+1. **Fork/Clone** the repository to your GitHub account
+2. **Go to Actions** tab in your GitHub repository
+3. **Run "Manual Release"** workflow with your desired version
+4. **Download** the generated ZIP from the release page
+5. **Upload** to WordPress
 
 ## 📂 File Structure
 

@@ -15,6 +15,9 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: write
+      
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -39,13 +42,10 @@ jobs:
       run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
       
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ steps.version.outputs.version }}
-        release_name: Lazy Loading Plugin v${{ steps.version.outputs.version }}
+        name: Lazy Loading Plugin v${{ steps.version.outputs.version }}
         body: |
           ## WordPress Lazy Loading Plugin v${{ steps.version.outputs.version }}
           
@@ -85,18 +85,12 @@ jobs:
           ---
           
           **Download the ZIP file below and upload to WordPress!**
+        files: |
+          lazy-loading-plugin-v${{ steps.version.outputs.version }}.zip
         draft: false
         prerelease: false
-        
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./lazy-loading-plugin-v${{ steps.version.outputs.version }}.zip
-        asset_name: lazy-loading-plugin-v${{ steps.version.outputs.version }}.zip
-        asset_content_type: application/zip
         
     - name: Upload to WordPress.org (Optional)
       if: false  # Set to true when ready to submit to WordPress.org
