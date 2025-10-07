@@ -18,7 +18,7 @@ A lightweight and efficient WordPress plugin that implements lazy loading for im
 
 1. **Download or Clone**
    ```bash
-   git clone https://github.com/your-username/lazy-loading-plugin.git
+   git clone https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin.git
    ```
 
 2. **Upload to WordPress**
@@ -180,8 +180,8 @@ GPL v2 or later
 
 ## Support
 
-For support, please create an issue on GitHub or contact the plugin author.
+For support, please create an issue on [GitHub Issues](https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin/issues) or contact the plugin author.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request on [GitHub](https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin).

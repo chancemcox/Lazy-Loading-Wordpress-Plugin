@@ -9,6 +9,7 @@ yarn-error.log*
 *.min.js
 dist/
 build/
+*.zip
 
 # WordPress specific
 wp-config.php

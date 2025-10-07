@@ -3,7 +3,7 @@
 ## 📦 Quick Installation
 
 ### Method 1: Download ZIP (Recommended)
-1. Download the latest `lazy-loading-plugin.zip` from the [releases page](https://github.com/your-username/lazy-loading-plugin/releases)
+1. Download the latest `lazy-loading-plugin.zip` from the [releases page](https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin/releases)
 2. In WordPress Admin, go to **Plugins → Add New → Upload Plugin**
 3. Choose the downloaded ZIP file and click **Install Now**
 4. Click **Activate Plugin**
@@ -18,7 +18,7 @@
 ### Method 3: Git Clone (For Developers)
 ```bash
 cd /path/to/wordpress/wp-content/plugins/
-git clone https://github.com/your-username/lazy-loading-plugin.git
+git clone https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin.git
 ```
 
 ## 🔧 Requirements
@@ -217,9 +217,9 @@ document.addEventListener('lazyloaded', function(e) {
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/your-username/lazy-loading-plugin/issues)
-- **Documentation**: [Wiki](https://github.com/your-username/lazy-loading-plugin/wiki)
-- **Email**: support@yoursite.com
+- **Issues**: [GitHub Issues](https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin/issues)
+- **Documentation**: [Wiki](https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin/wiki)
+- **Email**: chance.cox@example.com
 
 ## 📄 License
 

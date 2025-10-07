@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Lazy Loading Plugin
- * Plugin URI: https://github.com/your-username/lazy-loading-plugin
+ * Plugin URI: https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin
  * Description: A WordPress plugin that implements lazy loading for images using IntersectionObserver API with fallback support.
  * Version: 1.0.0
- * Author: Your Name
+ * Author: Chance Cox
  * License: GPL v2 or later
  * Text Domain: lazy-loading-plugin
  */

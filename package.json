@@ -10,7 +10,12 @@
     "minify-js": "uglifyjs assets/js/lazy-loading.js -o assets/js/lazy-loading.min.js -c -m",
     "dev": "npm run build && npm run watch",
     "watch": "nodemon --watch assets/css/lazy-loading.css --watch assets/js/lazy-loading.js --exec \"npm run build\"",
-    "serve": "http-server . -p 8080 -o demo.html"
+    "serve": "http-server . -p 8080 -o demo.html",
+    "clean": "rm -rf dist/ *.zip assets/**/*.min.*",
+    "build-zip": "./build.sh",
+    "release": "npm run build-zip && echo 'WordPress plugin ZIP created successfully!'",
+    "publish-release": "./release.sh",
+    "version-bump": "npm version patch && npm run release"
   },
   "keywords": [
     "wordpress",
@@ -21,16 +26,16 @@
     "intersection-observer",
     "optimization"
   ],
-  "author": "Your Name",
+  "author": "Chance Cox",
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/lazy-loading-plugin.git"
+    "url": "https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/lazy-loading-plugin/issues"
+    "url": "https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin/issues"
   },
-  "homepage": "https://github.com/your-username/lazy-loading-plugin#readme",
+  "homepage": "https://github.com/chancemcox/Lazy-Loading-Wordpress-Plugin#readme",
   "devDependencies": {
     "clean-css-cli": "^5.6.2",
     "uglify-js": "^3.17.4",
