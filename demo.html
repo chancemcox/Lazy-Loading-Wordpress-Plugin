@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lazy Loading Plugin Demo</title>
+    <link rel="stylesheet" href="assets/css/lazy-loading.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-section {
+            margin: 40px 0;
+        }
+        .demo-section h2 {
+            color: #555;
+            border-bottom: 2px solid #007cba;
+            padding-bottom: 10px;
+        }
+        img {
+            width: 400px;
+            height: 300px;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #007cba;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .stats {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .button {
+            background: #007cba;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #005a87;
+        }
+        .scroll-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 124, 186, 0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        @media (max-width: 768px) {
+            img {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator" id="scrollIndicator">
+        Scroll down to see lazy loading in action!
+    </div>
+
+    <div class="container">
+        <h1>🚀 Lazy Loading Plugin Demo</h1>
+        
+        <div class="info-box">
+            <strong>How it works:</strong> The first 3 images load immediately, while the rest are lazy loaded as you scroll down. 
+            Watch the network tab in your browser's developer tools to see the magic happen!
+        </div>
+
+        <div class="stats" id="stats">
+            <strong>Images Loaded:</strong> <span id="loadedCount">0</span> / <span id="totalCount">0</span>
+        </div>
+
+        <div class="demo-section">
+            <h2>📸 Immediately Loaded Images</h2>
+            <p>These images load right away (no lazy loading):</p>
+            
+            <img src="https://picsum.photos/400/300?random=1" alt="Image 1" />
+            <img src="https://picsum.photos/400/300?random=2" alt="Image 2" />
+            <img src="https://picsum.photos/400/300?random=3" alt="Image 3" />
+        </div>
+
+        <div class="demo-section">
+            <h2>⏳ Lazy Loaded Images</h2>
+            <p>These images will load as you scroll down (with lazy loading):</p>
+            
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=4" alt="Lazy Image 4" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=5" alt="Lazy Image 5" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=6" alt="Lazy Image 6" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=7" alt="Lazy Image 7" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=8" alt="Lazy Image 8" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=9" alt="Lazy Image 9" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=10" alt="Lazy Image 10" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=11" alt="Lazy Image 11" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=12" alt="Lazy Image 12" />
+            <img class="lazy" data-src="https://picsum.photos/400/300?random=13" alt="Lazy Image 13" />
+        </div>
+
+        <div class="demo-section">
+            <h2>🎮 Controls</h2>
+            <button class="button" onclick="LazyLoading.refresh()">Refresh Lazy Loading</button>
+            <button class="button" onclick="loadAllImages()">Load All Images</button>
+            <button class="button" onclick="resetDemo()">Reset Demo</button>
+        </div>
+
+        <div class="demo-section">
+            <h2>📊 Performance Benefits</h2>
+            <div class="info-box">
+                <ul>
+                    <li><strong>Faster Initial Load:</strong> Only loads visible images</li>
+                    <li><strong>Reduced Bandwidth:</strong> Saves data on mobile devices</li>
+                    <li><strong>Better UX:</strong> Smooth scrolling without loading interruptions</li>
+                    <li><strong>SEO Friendly:</strong> Maintains all image attributes</li>
+                    <li><strong>Modern & Compatible:</strong> Uses IntersectionObserver with fallbacks</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Override settings for demo
+        window.lazyLoadingSettings = {
+            threshold: 0.1,
+            rootMargin: '50px',
+            placeholder: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect width="100%25" height="100%25" fill="%23f1f1fa"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-family="Arial, sans-serif" font-size="16"%3ELoading...%3C/text%3E%3C/svg%3E',
+            fadeIn: true
+        };
+    </script>
+    <script src="assets/js/lazy-loading.js"></script>
+    <script>
+        // Demo functionality
+        let loadedImages = 0;
+        let totalImages = 0;
+
+        function updateStats() {
+            totalImages = document.querySelectorAll('img').length;
+            loadedImages = document.querySelectorAll('img.loaded, img:not(.lazy)').length;
+            
+            document.getElementById('totalCount').textContent = totalImages;
+            document.getElementById('loadedCount').textContent = loadedImages;
+        }
+
+        function loadAllImages() {
+            const lazyImages = document.querySelectorAll('img.lazy[data-src]');
+            lazyImages.forEach(img => {
+                LazyLoading.loadImage(img);
+            });
+        }
+
+        function resetDemo() {
+            location.reload();
+        }
+
+        // Track loaded images
+        document.addEventListener('lazyloaded', function(e) {
+            console.log('Image lazy loaded:', e.target.getAttribute('alt'));
+            updateStats();
+        });
+
+        document.addEventListener('lazyerror', function(e) {
+            console.error('Image failed to load:', e.target.getAttribute('alt'));
+        });
+
+        // Update stats on page load
+        window.addEventListener('load', function() {
+            updateStats();
+            
+            // Hide scroll indicator after a delay
+            setTimeout(() => {
+                document.getElementById('scrollIndicator').style.display = 'none';
+            }, 5000);
+        });
+
+        // Show loading progress
+        const originalCreateElement = document.createElement;
+        let networkRequests = 0;
+
+        // Simple way to track when images start loading
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+        });
+
+        // Update stats periodically
+        setInterval(updateStats, 1000);
+    </script>
+</body>
+</html>

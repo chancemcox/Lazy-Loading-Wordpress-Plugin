@@ -1,0 +1,87 @@
+/* Lazy Loading Plugin CSS */
+
+/* Base styles for lazy loaded images */
+img.lazy {
+    background: #f1f1fa;
+    border: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Fade in effect for loaded images */
+img.lazy.fade-in {
+    opacity: 0;
+}
+
+img.lazy.loaded {
+    opacity: 1;
+}
+
+/* Loading placeholder styles */
+img.lazy[data-src] {
+    background: #f1f1fa;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='100%25' height='100%25' fill='%23f1f1fa'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial, sans-serif' font-size='14'%3ELoading...%3C/text%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* Blur effect while loading (optional) */
+img.lazy.blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+img.lazy.loaded.blur {
+    filter: blur(0);
+}
+
+/* Skeleton loading animation (optional) */
+img.lazy.skeleton {
+    background: linear-gradient(90deg, #f1f1fa 25%, #e0e0e0 50%, #f1f1fa 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Progressive enhancement for browsers without IntersectionObserver */
+.no-intersection-observer img.lazy {
+    display: none;
+}
+
+.no-intersection-observer img.lazy.loaded {
+    display: block;
+}
+
+/* Responsive image adjustments */
+@media (max-width: 768px) {
+    img.lazy {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Error state styling */
+img.lazy.error {
+    background: #ffebee;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='100%25' height='100%25' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c62828' font-family='Arial, sans-serif' font-size='14'%3EImage failed to load%3C/text%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* Print styles - show all images when printing */
+@media print {
+    img.lazy {
+        background: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+}

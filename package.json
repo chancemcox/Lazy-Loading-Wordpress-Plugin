@@ -1,0 +1,48 @@
+{
+  "name": "lazy-loading-plugin",
+  "version": "1.0.0",
+  "description": "A WordPress plugin that implements efficient lazy loading for images using IntersectionObserver API",
+  "main": "lazy-loading-plugin.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run minify-css && npm run minify-js",
+    "minify-css": "cleancss -o assets/css/lazy-loading.min.css assets/css/lazy-loading.css",
+    "minify-js": "uglifyjs assets/js/lazy-loading.js -o assets/js/lazy-loading.min.js -c -m",
+    "dev": "npm run build && npm run watch",
+    "watch": "nodemon --watch assets/css/lazy-loading.css --watch assets/js/lazy-loading.js --exec \"npm run build\"",
+    "serve": "http-server . -p 8080 -o demo.html"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "lazy-loading",
+    "performance",
+    "images",
+    "intersection-observer",
+    "optimization"
+  ],
+  "author": "Your Name",
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/lazy-loading-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/lazy-loading-plugin/issues"
+  },
+  "homepage": "https://github.com/your-username/lazy-loading-plugin#readme",
+  "devDependencies": {
+    "clean-css-cli": "^5.6.2",
+    "uglify-js": "^3.17.4",
+    "nodemon": "^3.0.1",
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
