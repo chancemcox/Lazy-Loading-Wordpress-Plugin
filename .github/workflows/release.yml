@@ -31,18 +31,17 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Make build script executable
-      run: chmod +x build.sh
-      
     - name: Build WordPress plugin
-      run: npm run build-zip
-      
+      run: |
+        chmod +x build.sh
+        npm run build-zip
+        
     - name: Get version from package.json
       id: version
       run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-      
+        
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: v${{ steps.version.outputs.version }}
         name: Lazy Loading Plugin v${{ steps.version.outputs.version }}

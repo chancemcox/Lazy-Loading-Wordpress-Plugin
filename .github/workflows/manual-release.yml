@@ -44,11 +44,15 @@ jobs:
         # Update constant if it exists
         sed -i "s/define('LAZY_LOADING_PLUGIN_VERSION', '[^']*')/define('LAZY_LOADING_PLUGIN_VERSION', '${{ github.event.inputs.version }}')/" lazy-loading-plugin.php
         
-    - name: Make build script executable
-      run: chmod +x build.sh
-      
     - name: Build WordPress plugin
-      run: npm run build-zip
+      run: |
+        chmod +x build.sh
+        npm run build-zip
+        
+    - name: Verify build output
+      run: |
+        ls -la *.zip
+        echo "Build completed successfully!"
       
     - name: Create Release
       uses: softprops/action-gh-release@v1

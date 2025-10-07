@@ -1,0 +1,56 @@
+name: Build Plugin
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js 18
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install npm dependencies
+      run: npm ci
+      
+    - name: Make build script executable
+      run: chmod +x build.sh
+      
+    - name: Build WordPress plugin ZIP
+      run: npm run build-zip
+      
+    - name: List generated files
+      run: |
+        echo "Generated files:"
+        ls -la *.zip || echo "No ZIP files found"
+        ls -la dist/ || echo "No dist directory found"
+        
+    - name: Verify build success
+      run: |
+        if [ -f *.zip ]; then
+          echo "✅ Build successful! WordPress plugin ZIP created."
+          unzip -l *.zip | head -20
+        else
+          echo "❌ Build failed! No ZIP file created."
+          exit 1
+        fi
+        
+    - name: Upload WordPress plugin ZIP
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: wordpress-plugin-${{ github.sha }}
+        path: "*.zip"
+        retention-days: 30
+        compression-level: 6
